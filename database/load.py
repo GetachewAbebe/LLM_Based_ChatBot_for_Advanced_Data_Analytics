@@ -11,20 +11,22 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-data_dir = "/home/daisy/Desktop/tenx/week3/LLM_Based_ChatBot_for_Advanced_Data_Analytics/data"
+directory = "/home/daisy/Desktop/tenx/week3/LLM_Based_ChatBot_for_Advanced_Data_Analytics/data"
 
 # Iterate over CSV files in the directory
-for root, dirs, files in os.walk(data_dir):
-    for file in files:
-        if file.endswith(".csv"):
-            table_name = os.path.splitext(file)[0]  # Extract table name from file name
-            file_path = os.path.join(root, file)  # Full path to CSV file
+for filename in os.listdir(directory):
+    if filename.endswith('.csv'):
+        # Construct full file path
+        file_path = os.path.join(directory, filename)
+        
+        table_name = os.path.splitext(filename)[0]
 
-            copy_command = f"\copy {table_name} FROM '{file_path}' CSV HEADER;"
+        with open(file_path, 'r') as f:
+            next(f)
 
-            print(copy_command)
+            # Copy data from CSV file to PostgreSQL table
+            cur.copy_from(f, table_name, sep=',', columns=None)
 
-            cur.execute(copy_command)
             conn.commit()
 
 cur.close()
