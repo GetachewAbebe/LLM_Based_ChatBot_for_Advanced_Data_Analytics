@@ -1,62 +1,31 @@
+import os
 import psycopg2
-import csv
 
-def load_subscription_data(conn):
-    with open('table_data.csv', 'r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip header row
-        for row in reader:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO SubscriptionTable (subscription_status, views, watch_time_hours, average_view_duration) VALUES (%s, %s, %s, %s)",
-                (row[0], int(row[1]), float(row[2]), row[3])
-            )
+# Connect to PostgreSQL database
+conn = psycopg2.connect(
+    dbname="postgres",
+    user="postgres",
+    password="postgres",
+    host="localhost",
+    port=15432
+)
+cur = conn.cursor()
+
+data_dir = "/home/daisy/Desktop/tenx/week3/LLM_Based_ChatBot_for_Advanced_Data_Analytics/data"
+
+# Iterate over CSV files in the directory
+for root, dirs, files in os.walk(data_dir):
+    for file in files:
+        if file.endswith(".csv"):
+            table_name = os.path.splitext(file)[0]  # Extract table name from file name
+            file_path = os.path.join(root, file)  # Full path to CSV file
+
+            copy_command = f"\copy {table_name} FROM '{file_path}' CSV HEADER;"
+
+            print(copy_command)
+
+            cur.execute(copy_command)
             conn.commit()
-            cursor.close()
 
-def load_chart_data(conn):
-    with open('chart_data.csv', 'r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip header row
-        for row in reader:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO SubscriptionChart (date, subscription_status, views) VALUES (%s, %s, %s)",
-                (row[0], row[1], int(row[2]))
-            )
-            conn.commit()
-            cursor.close()
-
-def load_totals_data(conn):
-    with open('totals.csv', 'r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip header row
-        for row in reader:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO SubscriptionTotals (date, views) VALUES (%s, %s)",
-                (row[0], int(row[1]))
-            )
-            conn.commit()
-            cursor.close()
-
-if __name__ == "__main__":
-    try:
-        conn = psycopg2.connect(
-            dbname="youtube_analytics",
-            user="daisy",
-            password="password", # replace with evironement variable
-            host="localhost",
-            port="5432"
-        )
-
-        load_subscription_data(conn)
-        load_chart_data(conn)
-        load_totals_data(conn)
-
-    except psycopg2.Error as e:
-        print("Error connecting to PostgreSQL:", e)
-    finally:
-        if conn is not None:
-            conn.close()
-# add more functions to load the rest of the tables for each cateory as per schema.sql
+cur.close()
+conn.close()
