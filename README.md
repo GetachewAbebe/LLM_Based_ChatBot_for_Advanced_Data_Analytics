@@ -1,22 +1,24 @@
-## Redash Chatbot Add-on: LLM-Based Chatbot for Advanced Data Analytics, Visualization, and Automated Insight Extraction
-# Introduction
+# Redash Chatbot Add-on: LLM-Based Chatbot for Advanced Data Analytics, Visualization, and Automated Insight Extraction
+## Introduction
 This project aims to develop a novel Redash chat add-on that empowers your team members to extract insights from multiple Redash dashboards and connected databases using natural language interaction. The chatbot leverages Large Language Models (LLMs) to enable seamless question-and-answer conversations and autonomous knowledge discovery.
 
-# Business Need
+## Business Need
 Your company is seeking to significantly enhance its data analysis capabilities, with a specific focus on comprehensive YouTube data exploration. The goal is to build a Redash chat add-on that allows your team members to extract insights from your BI platforms through natural language queries. This tool will democratize data analytics, enabling team members with non-technical backgrounds to easily explore and visualize data without deep SQL knowledge.
-# Features
+## Features
 Conversational Queries: Users can interact with Redash using natural language queries, making the process more intuitive and user-friendly.
 Interactive Responses: ChatGPT generates human-like responses, providing users with informative and contextual feedback on their queries.
 Data Visualization: The plugin allows users to visualize query results directly within the chat interface, enabling faster data exploration and analysis.
 The Redash ChatGPT Plugin is an exciting project that aims to integrate natural language conversation capabilities powered by ChatGPT into your Redash dashboard. Although the plugin is still a work in progress, it currently provides functionality for engaging in conversational queries with ChatGPT directly within the Redash interface.
 
-# Requirements Before Installation
+## Requirements Before Installation
 Local development setup
 Set up the prerequisites
 Install needed packages:
 
-$ sudo apt -y install docker.io docker-buildx docker-compose-v2
-$ sudo apt -y install build-essential curl docker-compose pwgen python3-venv xvfb
+```
+sudo apt -y install docker.io docker-buildx docker-compose-v2
+sudo apt -y install build-essential curl docker-compose pwgen python3-venv xvfb```
+
 Add your user to the "docker" group
 $ sudo usermod -aG docker $USER
 Install Node Version Manager
