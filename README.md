@@ -73,8 +73,6 @@ Build local Redash Docker image
 ```
 make compose_build
 ```
-On my desktop (Ryzen 5600X) that took about 12 minutes to complete the first time. After that though, it's much faster at about a minute and a half each time.
-
 It's a good idea to check that the docker images were built ok. We do that by telling docker to show us the local "docker images", which should include these three new ones. It's important the "created" time shows them to be very recent... if it's not, then they're old images left over from something else.
 
 ```
