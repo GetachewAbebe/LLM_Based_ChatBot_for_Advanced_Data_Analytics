@@ -1,4 +1,4 @@
-# Redash Chatbot Add-on: LLM-Based Chatbot for Advanced Data Analytics, Visualization, and Automated Insight Extraction
+# LLM-Based Chatbot for Advanced Data Analytics, Visualization, and Automated Insight Extraction
 ## Introduction
 This project aims to develop a novel Redash chat add-on that empowers your team members to extract insights from multiple Redash dashboards and connected databases using natural language interaction. The chatbot leverages Large Language Models (LLMs) to enable seamless question-and-answer conversations and autonomous knowledge discovery.
 
@@ -17,33 +17,47 @@ Install needed packages:
 
 ```
 sudo apt -y install docker.io docker-buildx docker-compose-v2
-sudo apt -y install build-essential curl docker-compose pwgen python3-venv xvfb```
+sudo apt -y install build-essential curl docker-compose pwgen python3-venv xvfb
+```
 
 Add your user to the "docker" group
-$ sudo usermod -aG docker $USER
+```
+sudo usermod -aG docker $USER
+```
 Install Node Version Manager
-$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+```
 Now log out of your desktop, then back in again, for the group change to become effective and nvm to be available.
 
 Install NodeJS version 16
 Yes, it's End Of Life. But we need to use version 16 for now until we've updated some other stuff.
 
-$ nvm install --lts 16
-$ nvm alias default 16
-$ nvm use 16
+```
+nvm install --lts 16
+nvm alias default 16
+nvm use 16
+```
 Confirm version 16 of NodeJS is active:
 
-$ nvm list
+```
+nvm list
+```
 Install Yarn 1.x
-$ npm install --global yarn@1.22.19
+```
+npm install --global yarn@1.22.19
+```
 Clone the Redash source code and install the NodeJS dependencies
-$ git clone https://github.com/birehan/Redash-NLP-Chatbot-Analytics
-$ cd redash
-$ yarn
+```
+git clone https://github.com/birehan/Redash-NLP-Chatbot-Analytics
+cd redash
+yarn
+```
 Generate your local environment variables file
 Generate the .env file containing (required) environment variables, suitable for development builds:
-
-$ make env
+```
+make env
+```
 Final step Inside your .env file, add your OpenAI API key, with the name indicated below:
 Get your free OpenAI key - https://platform.openai.com/
 
@@ -52,19 +66,29 @@ Compile and build
 Redash uses GNU Make to run things, so if you're not sure about something it's often a good idea to take a look over the Makefile which can help.
 
 Build the Redash front end
-$ make build
+```
+make build
+```
 Build local Redash Docker image
-$ make compose_build
+```
+make compose_build
+```
 On my desktop (Ryzen 5600X) that took about 12 minutes to complete the first time. After that though, it's much faster at about a minute and a half each time.
 
 It's a good idea to check that the docker images were built ok. We do that by telling docker to show us the local "docker images", which should include these three new ones. It's important the "created" time shows them to be very recent... if it's not, then they're old images left over from something else.
 
-$ docker image list
+```
+docker image list
+```
 Start Redash locally, using the docker images you just built
-$ make create_database
-$ make up
+```
+make create_database
+make up
+```
 The Redash web interface should also be available at http://localhost:5001, ready to be configured.
 
 Once you've finished confirming everything works the way you want, then shut down the containers with:
 
-$ make down
+```
+make down
+```
