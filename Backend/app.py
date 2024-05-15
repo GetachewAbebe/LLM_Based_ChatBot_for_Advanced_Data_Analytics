@@ -1,8 +1,14 @@
 from quart import Quart
-from backend.controllers.routes import bp as routes_bp
+from models.database import db
+from controllers.routes import data_blueprint
+from config import config
 
 app = Quart(__name__)
-app.register_blueprint(routes_bp, url_prefix='/api')
+app.config.from_object(config)
+
+db.init_app(app)
+
+app.register_blueprint(data_blueprint, url_prefix='/data')
 
 if __name__ == '__main__':
     app.run()
